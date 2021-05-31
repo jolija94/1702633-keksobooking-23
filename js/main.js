@@ -16,7 +16,7 @@ function getRandomIntInclusive(min, max) {
 
 getRandomIntInclusive();
 
-function getRandom(min, max, fix) {
+function getRandom(min, max, fixing) {
   if (min > max) {
     const chosenNumber = min;
     min = max;
@@ -26,7 +26,6 @@ function getRandom(min, max, fix) {
   if (number < 0) {
     return 'very bad';
   }
-  return [number.toFixed(fix), fix];
+  return number.toFixed(fixing);
 }
-
 getRandom();
