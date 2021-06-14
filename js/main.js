@@ -51,7 +51,7 @@ const createAdt = () => {
   const LNG = getRandom(139.70000, 139.80000, 5);
   return {
     author: {
-      avatar: 'img/avatars/user0' + getRandom(1, 9) + '.png',
+      avatar: `img/avatars/user0${  getRandom(1, 9)  }.png`,
     },
     offer: {
       title: getRandomElementArray(TITLES_ARRAY),
@@ -69,8 +69,8 @@ const createAdt = () => {
     location: {
       lat: LAT,
       lng: LNG,
-    }
-}
-}
+    },
+  };
+};
 const createSomeAdt = new Array(10).fill(null).map(() => createAdt());
 console.log(createSomeAdt);
