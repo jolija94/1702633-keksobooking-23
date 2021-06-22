@@ -1,3 +1,12 @@
+const TYPES_ARRAY = [ 'palace', 'flat', 'house', 'bungalow', 'hotel'];
+const HOURS_ARRAY = ['12:00', '13:00', '14:00'];
+const FEATURES_ARRAY = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
+const PHOTOS_ARRAY = ['https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/duonguyen-8LrGtIxxa4w.jpg',
+  'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/brandon-hoogenboom-SNxQGWxZQi0.jpg',
+  'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg'];
+const TITLES_ARRAY = ['Арабская ночь', 'Вечер на Мальдивах', 'Утро в Геленджике', 'День с Итальяским кофе'];
+const DESCRIPTION_ARRAY = ['Почувствуй себя Арабским шейхом', 'И даже дошик на завтрак', 'Воплоти мечты Гейши'];
+const ADT = 10;
 function getRandomIntInclusive(min, max) {
   min = Math.ceil(min);
   max = Math.floor(max);
@@ -30,19 +39,7 @@ function getRandom(min, max, fixing) {
 }
 getRandom();
 
-
-const TYPES_ARRAY = [ 'palace', 'flat', 'house', 'bungalow', 'hotel'];
-const HOURS_ARRAY = ['12:00', '13:00', '14:00'];
-const FEATURES_ARRAY = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
-const PHOTOS_ARRAY = ['https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/duonguyen-8LrGtIxxa4w.jpg',
-  'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/brandon-hoogenboom-SNxQGWxZQi0.jpg',
-  'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg'];
-const TITLES_ARRAY = ['Арабская ночь', 'Вечер на Мальдивах', 'Утро в Геленджике', 'День с Итальяским кофе'];
-const DESCRIPTION_ARRAY = ['Почувствуй себя Арабским шейхом', 'И даже дошик на завтрак', 'Воплоти мечты Гейши'];
-
-const getRandomElementArray = (elements) => elements [
-  getRandomIntInclusive( 0,elements.length - 1)
-];
+const getRandomElementArray = (elements) => elements [ getRandomIntInclusive( 0,elements.length - 1) ];
 
 const getRandomListArray = (elements) => elements.slice (0, getRandomIntInclusive(1, 5));
 
@@ -72,5 +69,6 @@ const createAdt = () => {
     },
   };
 };
-const createSomeAdt = new Array(10).fill(null).map(() => createAdt());
-console.log(createSomeAdt);
+
+const createSomeAdt = new Array(ADT).fill(null).map(() => createAdt());
+createSomeAdt();
