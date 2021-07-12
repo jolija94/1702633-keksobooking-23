@@ -1,19 +1,15 @@
-import './util.js';
-import './data.js';
-
 const map = document.querySelector('.map');
 const mapCanvas = map.querySelector('#map-canvas');
 const userTemplateFragment = document.querySelector('#card').content.querySelector('.popup');
-
-const createPromo = createSomeAdt[10];
-
-const housingType = {
+const housingTypes = {
   flat:'Квартира',
   bungalow:'Бунгало',
   house:'Дом',
   palace:'Дворец',
   hotel:'Отель',
 };
+
+const getTypeHousesRussian = (housingType) => housingTypes[housingType];
 
 const setAdt = (adtElement, visible) => {
   if (!visible) {
@@ -31,8 +27,8 @@ const  setAdtElementContent = (adtElement, content, isHtml) => {
   adtElement.textContent = content;
 };
 
-const createNewAdt = createPromo.forEach(() => {
-  const adtElements = userTemplateFragment.cloneNode(true);
+const createPromo = (createSomeAdt) => createSomeAdt.map((adtElement) => {
+  const popup = userTemplateFragment.cloneNode(true);
 
   const title = document.querySelector('.popup__title');
   setAdt(title, adtElement.offer.title);
@@ -41,6 +37,10 @@ const createNewAdt = createPromo.forEach(() => {
   const address = document.querySelector('.popup__text--address');
   setAdt(address, adtElement.offer.address);
   setAdtElementContent(address, adtElement.offer.address, false);
+
+  const type = document.querySelector('.popup_type');
+  setAdt(type, adtElement.offer.types);
+  setAdtElementContent(type, getTypeHousesRussian(adtElement.offer.type), false);
 
   const price = document.querySelector('.popup__text--price');
   setAdt(price, adtElement.offer.price);
@@ -76,19 +76,22 @@ const createNewAdt = createPromo.forEach(() => {
   }
 
   const photos = document.querySelector('.popup__photos');
-  setAdt(photos, photosPopup.length);
+  const photosPopup = adtElement.offer.photos;
   const templatePhotosGallery = popup.querySelector('.popup__photos');
-  if (adtElements.offer.photos) {
-    const photosPopup = adtElements.offer.photos;
-    photos.innerHTML = '';
-    photosPopup.forEach ((photoPopup) =>  {
-      const photoItem = templatePhotosGallery.cloneNode(true);
-      photoItem.src = photoPopup;
-      photos.appendChild(photoItem);
-    });
-  }
+
+  setAdt(photos, photosPopup.length);
+  photos.innerHTML = '';
+  photosPopup.forEach ((photoPopup) =>  {
+    const photoItem = templatePhotosGallery.cloneNode(true);
+    photoItem.src = photoPopup;
+    photos.appendChild(photoItem);
+  });
+
   return popup;
+
 });
 
-export {userTemplateFragment, housingType, setAdt, setAdtElementContent, createNewAdt, mapCanvas};
+mapCanvas.appendChild(createPromo[0]);
+
+export {createPromo};
 
