@@ -39,7 +39,7 @@ const createAdt = () => {
 };
 
 
-const createSomeAdt = new Array(ADT).fill(null).map(() => createAdt());
+const createSomeArray = new Array(ADT).fill(null).map(() => createAdt());
 
 
-export {TYPES_ARRAY, HOURS_ARRAY, FEATURES_ARRAY, PHOTOS_ARRAY, TITLES_ARRAY, DESCRIPTION_ARRAY, ADT, getRandomListArray, createAdt, createSomeAdt};
+export {TYPES_ARRAY, HOURS_ARRAY, FEATURES_ARRAY, PHOTOS_ARRAY, TITLES_ARRAY, DESCRIPTION_ARRAY, ADT, getRandomListArray, createAdt, createSomeArray};
