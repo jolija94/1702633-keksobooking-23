@@ -87,11 +87,10 @@ const createPromo = (createSomeAdt) => createSomeAdt.map((adtElement) => {
     photos.appendChild(photoItem);
   });
 
-  return popup;
+  userTemplateFragment.appendChild(adtElement);
 
 });
 
-mapCanvas.appendChild(createPromo[0]);
+mapCanvas.appendChild(userTemplateFragment.firstChild);
 
 export {createPromo};
-
