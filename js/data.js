@@ -1,4 +1,5 @@
 import {getRandomIntInclusive, getRandom, getRandomElementArray} from './util.js';
+
 const TYPES_ARRAY = [ 'palace', 'flat', 'house', 'bungalow', 'hotel'];
 const HOURS_ARRAY = ['12:00', '13:00', '14:00'];
 const FEATURES_ARRAY = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
@@ -39,7 +40,6 @@ const createAdt = () => {
 };
 
 
-const createSomeArray = new Array(ADT).fill(null).map(() => createAdt());
+const createSomeAdt = new Array(ADT).fill(null).map(() => createAdt());
 
-
-export {TYPES_ARRAY, HOURS_ARRAY, FEATURES_ARRAY, PHOTOS_ARRAY, TITLES_ARRAY, DESCRIPTION_ARRAY, ADT, getRandomListArray, createAdt, createSomeArray};
+export {TYPES_ARRAY, HOURS_ARRAY, FEATURES_ARRAY, PHOTOS_ARRAY, TITLES_ARRAY, DESCRIPTION_ARRAY, ADT, getRandomListArray, createAdt, createSomeAdt};
