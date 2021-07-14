@@ -32,38 +32,38 @@ const createPromo = (createSomeAdt) => createSomeAdt.map((adtElement) => {
   const popup =  userPopupTemplate.cloneNode(true);
 
   const title = popup.querySelector('.popup__title');
-  setAdt(title, adtElement.offer.title);
+  setAdt(title, adtElement.offer.title.textContent);
   setAdtElementContent(title, adtElement.offer.title, false);
 
   const address = popup.querySelector('.popup__text--address');
-  setAdt(address, adtElement.offer.address);
+  setAdt(address, adtElement.offer.address.textContent);
   setAdtElementContent(address, adtElement.offer.address, false);
 
   const type = popup.querySelector('.popup_type');
-  setAdt(type, adtElement.offer.types);
+  setAdt(type, adtElement.offer.types.textContent);
   setAdtElementContent(type, getTypeHousesRussian(adtElement.offer.type), false);
 
   const price = popup.querySelector('.popup__text--price');
-  setAdt(price, adtElement.offer.price);
-  setAdtElementContent(price, `${adtElement.offer.price} <span> ₽/ночь </span>`, true);
+  setAdt(price, adtElement.offer.price.textContent);
+  setAdtElementContent(price, `${adtElement.offer.price} <span> ₽/ночь </span>`, false);
 
-  const capacity = popup.querySelector('.popup__text--capacity');
+  const capacity = popup.querySelector('.popup__text--capacity').textContent;
   setAdt(capacity, adtElement.offer.rooms && adtElement.offer.guests);
   setAdtElementContent(capacity, `${adtElement.offer.rooms} комнаты для ${adtElement.offer.guests} гостей`, false);
 
   const time = popup.querySelector('.popup__text--time');
   setAdt(time, adtElement.offer.checkin && adtElement.offer.checkout);
-  setAdtElementContent(time,  `Заезд после ${adtElement.offer.checkin}, выезд до ${adtElement.offer.checkout}`, false);
+  setAdtElementContent(time, ` Заезд после ${adtElement.offer.checkin.textContent}, выезд до ${adtElement.offer.checkout.textContent} `, false);
+
+  const description = popup.querySelector('.popup__description');
+  setAdt(description, adtElement.offer.features.textContent);
+  setAdtElementContent(description, adtElement.popup.description, false);
 
   const avatar = popup.querySelector('.popup__avatar');
   setAdt(avatar, adtElement.autor.avatar);
   avatar.src = adtElement.autor.avatar;
 
-  const description = popup.querySelector('.popup__description');
-  setAdt(description, adtElement.offer.features);
-  setAdtElementContent(description, adtElement.popup.description, false);
-
-  const features = popup.querySelector('.popup__features');
+  const features = popup.querySelectorAll('.popup__features');
   if (adtElement.offer.features) {
     const featuresPopup = adtElement.offer.features;
     setAdt(features, featuresPopup.length);
@@ -76,7 +76,7 @@ const createPromo = (createSomeAdt) => createSomeAdt.map((adtElement) => {
     });
   }
 
-  const photoList = popup.querySelector('.popup__photos');
+  const photoList = popup.querySelectorAll('.popup__photos');
   const templatePhotosGallery = popup.querySelector('.popup__photos');
   if (adtElement.offer.photos) {
     const photosPopup = adtElement.offer.photos;
@@ -91,6 +91,6 @@ const createPromo = (createSomeAdt) => createSomeAdt.map((adtElement) => {
   return popup;
 });
 
-mapCanvas.appendChild(createPromo.firstChild);
+mapCanvas.appendChild();
 
 export {createPromo, mapCanvas, map};
