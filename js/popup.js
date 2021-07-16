@@ -85,7 +85,7 @@ createSomeAdt.map((adtElement) => {
 
   if (photosPopup) {
     photos.innerHTML = '';
-    adtElement.offer.photos.forEach((photo) =>  {
+    adtElement.offer.photos.forEach((photo) => {
       const photoPopup  = document.createElement('img');
       photoPopup.classList.add('popup__photo');
       photoPopup.width = 45;
