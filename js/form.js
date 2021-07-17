@@ -1,3 +1,6 @@
+import {MAX_PRICE, MIN_PRICE, PRICE_TYPE, NOT_GUESTS, MAX_ROOM} from './data.js';
+import {sameValue} from './util.js';
+
 const formAdt = document.querySelector('.ad-form').querySelectorAll('fieldset');
 const formMap = document.querySelector('.map__filters');
 const featuresMap = document.querySelector('.map__features');
@@ -19,11 +22,6 @@ const toggleDisabledPage = (inactive) => {
     formMap.classList.remove('map__filters--disabled');
   }
 };
-
-export {toggleDisabledPage};
-
-import {MAX_PRICE, MIN_PRICE, PRICE_TYPE, NOT_GUESTS, MAX_ROOM} from './data.js';
-import {sameValue} from './util.js';
 
 const priceAdt = document.querySelector('#price');
 priceAdt.addEventListener('input', () => {
@@ -117,3 +115,5 @@ if (houseType.value === 'flat') {
   priceAdt.setAttribute('min', valueFlat);
   priceAdt.setAttribute('placeholder', valueFlat );
 }
+
+export {toggleDisabledPage};
