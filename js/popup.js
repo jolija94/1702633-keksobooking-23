@@ -1,4 +1,4 @@
-import {createSomeAdt} from './data.js';
+import {creationSomeAdt} from './data.js';
 
 const map = document.querySelector('.map');
 const mapCanvas = map.querySelector('#map-canvas');
@@ -30,7 +30,7 @@ const  setAdtElementContent = (adtElement, content, isHtml) => {
   adtElement.textContent = content;
 };
 
-const createPopups = createSomeAdt.map((adtElement) => {
+const creationPopups = creationSomeAdt.map((adtElement) => {
   const popup = userTemplateFragment.cloneNode(true);
 
   const title = popup.querySelector('.popup__title');
@@ -96,4 +96,4 @@ const createPopups = createSomeAdt.map((adtElement) => {
   return(popup);
 });
 
-export {createSomeAdt, createPopups, mapCanvas};
+export {creationSomeAdt, creationPopups, mapCanvas};

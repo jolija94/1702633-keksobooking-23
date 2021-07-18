@@ -24,7 +24,7 @@ const PRICE_TYPE = {
 
 const getRandomListArray = (elements) => elements.slice (0, getRandomIntInclusive(1, 5));
 
-const createAdt = () => {
+const creationAdt = () => {
   const LAT = getRandom(35.65000, 35.70000, 5);
   const LNG = getRandom(139.70000, 139.80000, 5);
   return {
@@ -52,7 +52,7 @@ const createAdt = () => {
 };
 
 
-const createSomeAdt = new Array(ADT).fill(null).map(() => createAdt());
+const creationSomeAdt = new Array(ADT).fill(null).map(() => creationAdt());
 
-export {TYPES_ARRAY, HOURS_ARRAY, FEATURES_ARRAY, PHOTOS_ARRAY, TITLES_ARRAY, DESCRIPTION_ARRAY, ADT, getRandomListArray, createAdt, createSomeAdt};
+export {TYPES_ARRAY, HOURS_ARRAY, FEATURES_ARRAY, PHOTOS_ARRAY, TITLES_ARRAY, DESCRIPTION_ARRAY, ADT, getRandomListArray, creationAdt, creationSomeAdt};
 export {MIN_PRICE, MAX_PRICE, PRICE_TYPE,NOT_GUESTS, MAX_ROOM};

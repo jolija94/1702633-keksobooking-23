@@ -7,6 +7,10 @@ const featuresMap = document.querySelector('.map__features');
 const getFiltersSelects = formMap.querySelectorAll('select');
 
 const FLAT_VALUE = 'flat';
+const BUNGALOW = 'bungalow';
+const HOUSE = 'house';
+const PALACE = 'palace';
+const HOTEL = 'hotel';
 
 const toggleDisabledPage = (inactive) => {
   formAdt.forEach((item) => {
@@ -88,23 +92,23 @@ roomCapacityGuests.addEventListener('change', () => {
 houseType.addEventListener('change', () => {
   const value = PRICE_TYPE[houseType.value.toUpperCase()];
   switch(houseType.value) {
-    case 'flat':
+    case FLAT_VALUE:
       priceAdt.setAttribute('min', value);
       priceAdt.setAttribute('placeholder', value);
       break;
-    case 'bungalow':
+    case BUNGALOW:
       priceAdt.setAttribute('min', value);
       priceAdt.setAttribute('placeHolder', value);
       break;
-    case 'house':
+    case HOUSE:
       priceAdt.setAttribute('min', value);
       priceAdt.setAttribute('placeholder', value);
       break;
-    case 'palace':
+    case PALACE:
       priceAdt.setAttribute('min', value);
       priceAdt.setAttribute('placeholder', value);
       break;
-    case 'hotel':
+    case HOTEL:
       priceAdt.setAttribute('min', value);
       priceAdt.setAttribute('placeholder', value);
       break;
@@ -118,4 +122,9 @@ if (houseType.value === FLAT_VALUE) {
   priceAdt.setAttribute('placeholder', valueFlat );
 }
 
-export {toggleDisabledPage};
+const clearForm = () => {
+  formAdt.reset();
+  formMap.reset();
+};
+
+export {toggleDisabledPage, clearForm};
