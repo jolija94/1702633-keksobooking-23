@@ -4,4 +4,4 @@ import './popup.js';
 import './form.js';
 import {toggleDisabledPage} from './form.js';
 
-toggleDisabledPage(true);
+toggleDisabledPage(false);

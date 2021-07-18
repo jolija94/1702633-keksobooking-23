@@ -10,6 +10,18 @@ const TITLES_ARRAY = ['Арабская ночь', 'Вечер на Мальди
 const DESCRIPTION_ARRAY = ['Почувствуй себя Арабским шейхом', 'И даже дошик на завтрак', 'Воплоти мечты Гейши'];
 const ADT = 10;
 
+const MIN_PRICE = 0;
+const MAX_PRICE = 1000000;
+const MAX_ROOM = 100;
+const NOT_GUESTS = 0;
+const PRICE_TYPE = {
+  BUNGALOW: 0,
+  FLAT: 1000,
+  HOTEL: 3000,
+  HOUSE: 5000,
+  PALACE: 10000,
+};
+
 const getRandomListArray = (elements) => elements.slice (0, getRandomIntInclusive(1, 5));
 
 const createAdt = () => {
@@ -43,3 +55,4 @@ const createAdt = () => {
 const createSomeAdt = new Array(ADT).fill(null).map(() => createAdt());
 
 export {TYPES_ARRAY, HOURS_ARRAY, FEATURES_ARRAY, PHOTOS_ARRAY, TITLES_ARRAY, DESCRIPTION_ARRAY, ADT, getRandomListArray, createAdt, createSomeAdt};
+export {MIN_PRICE, MAX_PRICE, PRICE_TYPE,NOT_GUESTS, MAX_ROOM};
