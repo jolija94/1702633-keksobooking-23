@@ -3,7 +3,6 @@ import {createSomeAdt} from './data.js';
 const map = document.querySelector('.map');
 const mapCanvas = map.querySelector('#map-canvas');
 const userTemplateFragment = document.querySelector('#card').content.querySelector('.popup');
-const popupFragment = document.createDocumentFragment();
 const housingTypes = {
   flat:'Квартира',
   bungalow:'Бунгало',
@@ -31,7 +30,7 @@ const  setAdtElementContent = (adtElement, content, isHtml) => {
   adtElement.textContent = content;
 };
 
-createSomeAdt.map((adtElement) => {
+const createPopups = createSomeAdt.map((adtElement) => {
   const popup = userTemplateFragment.cloneNode(true);
 
   const title = popup.querySelector('.popup__title');
@@ -85,7 +84,7 @@ createSomeAdt.map((adtElement) => {
 
   if (photosPopup) {
     photos.innerHTML = '';
-    adtElement.offer.photos.forEach((photo) =>  {
+    adtElement.offer.photos.forEach((photo) => {
       const photoPopup  = document.createElement('img');
       photoPopup.classList.add('popup__photo');
       photoPopup.width = 45;
@@ -94,9 +93,7 @@ createSomeAdt.map((adtElement) => {
       photos.appendChild(photoPopup);
     });
   }
-
-  popupFragment.appendChild(popup);
+  return(popup);
 });
 
-mapCanvas.appendChild(popupFragment);
-
+export {createSomeAdt, createPopups, mapCanvas};

@@ -34,4 +34,8 @@ function getRandomElementArray(elements) {
   return elements[getRandomIntInclusive(0, elements.length - 1)];
 }
 
-export {getRandomIntInclusive, getRandom, getRandomElementArray};
+const sameValue = (currentValue, changeValue) => {
+  changeValue.value = currentValue.value;
+};
+
+export {getRandomIntInclusive, getRandom, getRandomElementArray, sameValue};
