@@ -80,6 +80,15 @@ const createServerAdt  = (creationSomeAdt) => {
   });
 };
 
+const markerGroup = L.layerGroup().addTo(map);
+
+const createAdtMap = (data) => {
+  data.forEach((objectPromo) => {
+    createServerAdt(objectPromo.avatar, objectPromo.offer, objectPromo.location);
+
+  });
+};
+
 address.setAttribute('value', `${TOKYO_LAT_LNG.lat}, ${TOKYO_LAT_LNG.lng}`);
 
-export {createServerAdt};
+export {createServerAdt, createAdtMap, markerGroup };

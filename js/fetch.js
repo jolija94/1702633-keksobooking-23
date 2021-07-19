@@ -6,7 +6,7 @@ const ADDRESS_GET = 'https://23.javascript.pages.academy/keksobooking/data';
 const ADDRESS_POST = 'https://23.javascript.pages.academy/keksobooking';
 
 const getData = (onSuccess) => fetch(ADDRESS_GET)
-  .then((response) => response.json)
+  .then((response) => response.json())
   .then((advert) => {
     onSuccess(advert);
   })
