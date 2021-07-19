@@ -1,4 +1,5 @@
-import { createServerAdt, markerGroup} from './map.js';
+import {  markerGroup, createAdtMap} from './map.js';
+//import { creationPopups } from './popup.js';
 
 const MAX_ADT = 10;
 
@@ -57,7 +58,10 @@ const onFilter = (adt) => {
     );
     return result;
   });
-  createServerAdt(filtrationAdt.slice(0, MAX_ADT));
+  const filterArray = filtrationAdt.slice(0, MAX_ADT);
+  //creationPopups(filterArray);
+  createAdtMap(filterArray);
+
 };
 
 function debounce (callback, timeoutDelay = 500) {

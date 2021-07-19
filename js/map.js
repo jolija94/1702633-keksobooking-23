@@ -56,36 +56,33 @@ resetButton.addEventListener('click', () => {
   map.setView(TOKYO_LAT_LNG, MAP_ZOOM);
 });
 
-const createServerAdt  = (creationSomeAdt) => {
-  creationSomeAdt.forEach((creationAdt, index) => {
-    const lat = creationAdt.location.lat;
-    const lng = creationAdt.location.lng;
-
-    const icon = L.icon({
-      iconUrl: 'img/pin.svg',
-      iconSize: ICON_SIZE,
-      iconAnchor: ICON_ANCHOR,
-    });
-
-    const marker = L.marker (
-      {
-        lat,
-        lng,
-      },
-      {
-        icon,
-      },
-    );
-    marker.addTo(map).bindPopup(creationPopups[index],{keepInView: true});
-  });
-};
-
 const markerGroup = L.layerGroup().addTo(map);
 
-const createAdtMap = (data) => {
-  data.forEach((objectPromo) => {
-    createServerAdt(objectPromo.avatar, objectPromo.offer, objectPromo.location);
+const createServerAdt  = (creationSomeAdt, index) => {
+  const lat = creationSomeAdt.location.lat;
+  const lng = creationSomeAdt.location.lng;
 
+  const icon = L.icon({
+    iconUrl: 'img/pin.svg',
+    iconSize: ICON_SIZE,
+    iconAnchor: ICON_ANCHOR,
+  });
+
+  const marker = L.marker (
+    {
+      lat,
+      lng,
+    },
+    {
+      icon,
+    },
+  );
+  marker.addTo(markerGroup).bindPopup(creationPopups[index],{keepInView: true});
+};
+
+const createAdtMap = (data) => {
+  data.forEach((objectPromo, index) => {
+    createServerAdt(objectPromo, index);
   });
 };
 
