@@ -1,5 +1,5 @@
 import {toggleDisabledPage} from './form.js';
-import {creationPopups} from './popup.js';
+import {createPopups} from './popup.js';
 
 const address = document.querySelector('#address');
 
@@ -58,34 +58,32 @@ resetButton.addEventListener('click', () => {
 
 const markerGroup = L.layerGroup().addTo(map);
 
-const createServerAdt  = (creationSomeAdt, index) => {
-  const lat = creationSomeAdt.location.lat;
-  const lng = creationSomeAdt.location.lng;
+const createServerAdt  = (adverts) => {
+  const popups = createPopups(adverts);
 
-  const icon = L.icon({
-    iconUrl: 'img/pin.svg',
-    iconSize: ICON_SIZE,
-    iconAnchor: ICON_ANCHOR,
-  });
+  adverts.forEach((advert, index) => {
+    const lat = advert.location.lat;
+    const lng = advert.location.lng;
 
-  const marker = L.marker (
-    {
-      lat,
-      lng,
-    },
-    {
-      icon,
-    },
-  );
-  marker.addTo(markerGroup).bindPopup(creationPopups[index],{keepInView: true});
-};
+    const icon = L.icon({
+      iconUrl: 'img/pin.svg',
+      iconSize: ICON_SIZE,
+      iconAnchor: ICON_ANCHOR,
+    });
 
-const createAdtMap = (data) => {
-  data.forEach((objectPromo, index) => {
-    createServerAdt(objectPromo, index);
+    const marker = L.marker (
+      {
+        lat,
+        lng,
+      },
+      {
+        icon,
+      },
+    );
+    marker.addTo(markerGroup).bindPopup(popups[index],{keepInView: true});
   });
 };
 
 address.setAttribute('value', `${TOKYO_LAT_LNG.lat}, ${TOKYO_LAT_LNG.lng}`);
 
-export {createServerAdt, createAdtMap, markerGroup };
+export {createServerAdt, markerGroup };

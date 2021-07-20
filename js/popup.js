@@ -1,7 +1,3 @@
-import {creationSomeAdt} from './data.js';
-
-const map = document.querySelector('.map');
-const mapCanvas = map.querySelector('#map-canvas');
 const userTemplateFragment = document.querySelector('#card').content.querySelector('.popup');
 const housingTypes = {
   flat:'Квартира',
@@ -30,7 +26,7 @@ const  setAdtElementContent = (adtElement, content, isHtml) => {
   adtElement.textContent = content;
 };
 
-const creationPopups = (someAdtArray) =>
+const createPopups = (someAdtArray) =>
   someAdtArray.map((adtElement) => {
     const popup = userTemplateFragment.cloneNode(true);
 
@@ -69,7 +65,7 @@ const creationPopups = (someAdtArray) =>
     const features = popup.querySelector('.popup__features');
     const featuresPopup = adtElement.offer.features;
     setAdt(features, featuresPopup && featuresPopup.length);
-    if (featuresPopup) {
+    if (featuresPopup && featuresPopup.length) {
       features.innerHTML = '';
       featuresPopup.forEach((featurePopup) =>  {
         const featuresItem  = document.createElement('li');
@@ -80,10 +76,10 @@ const creationPopups = (someAdtArray) =>
     }
 
     const photos = popup.querySelector('.popup__photos');
-    const photosPopup = adtElement.offer.features;
+    const photosPopup = adtElement.offer.photos;
     setAdt(photos, photosPopup && photosPopup.length);
 
-    if (photosPopup) {
+    if (photosPopup && photosPopup.length) {
       photos.innerHTML = '';
       adtElement.offer.photos.forEach((photo) => {
         const photoPopup  = document.createElement('img');
@@ -94,7 +90,7 @@ const creationPopups = (someAdtArray) =>
         photos.appendChild(photoPopup);
       });
     }
-    return(popup);
+    return popup;
   });
 
-export {creationSomeAdt, creationPopups, mapCanvas};
+export {createPopups};

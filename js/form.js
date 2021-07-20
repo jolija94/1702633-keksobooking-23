@@ -1,16 +1,10 @@
-import {MAX_PRICE, MIN_PRICE, PRICE_TYPE, NOT_GUESTS, MAX_ROOM} from './data.js';
+import {MIN_PRICE, MAX_PRICE, PRICE_TYPE,NOT_GUESTS, FLAT_VALUE, BUNGALOW, HOUSE, PALACE, HOTEL, MAX_ROOM} from './data.js';
 import {sameValue} from './util.js';
 
 const formAdt = document.querySelector('.ad-form').querySelectorAll('fieldset');
 const formMap = document.querySelector('.map__filters');
 const featuresMap = document.querySelector('.map__features');
 const getFiltersSelects = formMap.querySelectorAll('select');
-
-const FLAT_VALUE = 'flat';
-const BUNGALOW = 'bungalow';
-const HOUSE = 'house';
-const PALACE = 'palace';
-const HOTEL = 'hotel';
 
 const toggleDisabledPage = (inactive) => {
   formAdt.forEach((item) => {

@@ -1,56 +1,49 @@
-import {  markerGroup, createAdtMap} from './map.js';
-//import { creationPopups } from './popup.js';
-
-const MAX_ADT = 10;
-
-const PRICES = {
-  low: 10000,
-  high: 50000,
-};
+import {markerGroup, createServerAdt} from './map.js';
+import {MAX_ADTS, PRICES, ANY, LOW, MIDDLE, HIGH} from './data.js';
 
 const mapFilters = document.querySelector('.map__filters');
-const mapCheckboxFilterts = document.querySelectorAll('.map__checkbox');
+const mapCheckboxFilters = document.querySelectorAll('.map__checkbox');
 const housingTypeFilter = mapFilters.querySelector('#housing-type');
 const housingPriceFilter = mapFilters.querySelector('#housing-price');
 const housingRoomFilter = mapFilters.querySelector('#housing-rooms');
 const housingGuestsFilter = mapFilters.querySelector('#housing-guests');
 const housingFeaturesFilter = mapFilters.querySelectorAll('.map__checkbox');
 
-mapCheckboxFilterts.forEach((housingFeatures) => {
+mapCheckboxFilters.forEach((housingFeatures) => {
   housingFeatures.checked = false;
 });
 
-const onFilter = (adt) => {
-  const filtrationAdt = adt.filter((adts) => {
+const onFilter = (advert) => {
+  const filtrationAdt = advert.filter((adverts) => {
     let result = true;
-    if (housingTypeFilter.value !== 'any' && adts.offer.type !== housingTypeFilter.value)
+    if (housingTypeFilter.value !== ANY && adverts.offer.type !== housingTypeFilter.value)
     {
       result = false;
     }
-    if (housingPriceFilter.value !== 'any') {
-      if (housingPriceFilter.value === 'low' &&  adts.offer.price > PRICES.low)
-      {
-        result = false;
-      }
-      if (housingPriceFilter.value === 'middle' && (adts.offer.price < PRICES.low || adts.offer.price > PRICES.high))
-      {
-        result = false;
-      }
-      if (housingPriceFilter.value === 'high' &&  adts.offer.price < PRICES.high)
-      {
-        result = false;
-      }
-    }
-    if (housingRoomFilter.value !== 'any' && adts.offer.rooms !== Number(housingRoomFilter.value))
+    if (housingRoomFilter.value !== ANY && adverts.offer.rooms !== Number(housingRoomFilter.value))
     {
       result = false;
     }
-    if (housingGuestsFilter.value !== 'any' && adts.offer.guests !== Number(housingGuestsFilter.value))
+    if (housingGuestsFilter.value !== ANY && adverts.offer.guests !== Number(housingGuestsFilter.value))
     {
       return false;
     }
+    if (housingPriceFilter.value !== ANY) {
+      if (housingPriceFilter.value === LOW &&  adverts.offer.price > PRICES.low)
+      {
+        result = false;
+      }
+      if (housingPriceFilter.value === MIDDLE && (adverts.offer.price < PRICES.low || adverts.offer.price > PRICES.high))
+      {
+        result = false;
+      }
+      if (housingPriceFilter.value === HIGH &&  adverts.offer.price < PRICES.high)
+      {
+        result = false;
+      }
+    }
     housingFeaturesFilter.forEach((feature) => {
-      if (feature.checked && adts.offer.features && !adts.offer.features.includes(feature.value))
+      if ((feature.checked && adverts.offer.features && !adverts.offer.features.includes(feature.value)))
       {
         result = false;
       }
@@ -58,10 +51,8 @@ const onFilter = (adt) => {
     );
     return result;
   });
-  const filterArray = filtrationAdt.slice(0, MAX_ADT);
-  //creationPopups(filterArray);
-  createAdtMap(filterArray);
-
+  const filterArray = filtrationAdt.slice(0, MAX_ADTS);
+  createServerAdt(filterArray);
 };
 
 function debounce (callback, timeoutDelay = 500) {
@@ -79,12 +70,10 @@ function debounce (callback, timeoutDelay = 500) {
   };
 }
 
-export {debounce};
-
-const addFilters = (ads) => {
+const addFilters = (advert) => {
   const debounced = debounce(() => {
     markerGroup.clearLayers();
-    onFilter(ads);
+    onFilter(advert);
   });
   housingTypeFilter.addEventListener('change', debounced);
   housingPriceFilter.addEventListener('change', debounced);

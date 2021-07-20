@@ -1,9 +1,7 @@
 import {showAlert} from './util.js';
 import {clearForm} from './form.js';
 import {SUCCESS, ERROR, getMessage} from './message.js';
-
-const ADDRESS_GET = 'https://23.javascript.pages.academy/keksobooking/data';
-const ADDRESS_POST = 'https://23.javascript.pages.academy/keksobooking';
+import {ADDRESS_GET, ADDRESS_POST} from './data.js';
 
 const getData = (onSuccess) => fetch(ADDRESS_GET)
   .then((response) => response.json())

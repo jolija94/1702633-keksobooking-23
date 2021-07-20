@@ -6,10 +6,9 @@ import './map.js';
 import './fetch.js';
 import './filters.js';
 import {getData} from './fetch.js';
-//import {createServerAdt} from './map.js';
 import {addFilters, onFilter} from './filters.js';
 
-getData((adt) => {
-  onFilter(adt);
-  addFilters(adt);
+getData((advert) => {
+  onFilter(advert);
+  addFilters(advert);
 });
