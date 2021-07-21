@@ -1,58 +1,53 @@
-import {getRandomIntInclusive, getRandom, getRandomElementArray} from './util.js';
-
-const TYPES_ARRAY = [ 'palace', 'flat', 'house', 'bungalow', 'hotel'];
-const HOURS_ARRAY = ['12:00', '13:00', '14:00'];
-const FEATURES_ARRAY = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
-const PHOTOS_ARRAY = ['https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/duonguyen-8LrGtIxxa4w.jpg',
-  'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/brandon-hoogenboom-SNxQGWxZQi0.jpg',
-  'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg'];
-const TITLES_ARRAY = ['Арабская ночь', 'Вечер на Мальдивах', 'Утро в Геленджике', 'День с Итальяским кофе'];
-const DESCRIPTION_ARRAY = ['Почувствуй себя Арабским шейхом', 'И даже дошик на завтрак', 'Воплоти мечты Гейши'];
-const ADT = 10;
-
 const MIN_PRICE = 0;
 const MAX_PRICE = 1000000;
 const MAX_ROOM = 100;
 const NOT_GUESTS = 0;
-const PRICE_TYPE = {
-  BUNGALOW: 0,
-  FLAT: 1000,
-  HOTEL: 3000,
-  HOUSE: 5000,
-  PALACE: 10000,
+const ESC_EVENTS = ['Escape', 'Esc'];
+
+const PriceTypes = {
+  bungalow: 0,
+  flat: 1000,
+  hotel: 3000,
+  house: 5000,
+  palace: 10000,
 };
 
-const getRandomListArray = (elements) => elements.slice (0, getRandomIntInclusive(1, 5));
-
-const creationAdt = () => {
-  const LAT = getRandom(35.65000, 35.70000, 5);
-  const LNG = getRandom(139.70000, 139.80000, 5);
-  return {
-    author: {
-      avatar: `img/avatars/user0${  getRandom(1, 9)  }.png`,
-    },
-    offer: {
-      title: getRandomElementArray(TITLES_ARRAY),
-      address: `${LAT}, ${LNG}` ,
-      price: getRandomIntInclusive(1000, 1000000),
-      type: getRandomElementArray(TYPES_ARRAY),
-      rooms: getRandomIntInclusive(1, 99999),
-      guests: getRandomIntInclusive(1, 300000),
-      checkin: getRandomElementArray(HOURS_ARRAY),
-      checkout: getRandomElementArray(HOURS_ARRAY),
-      features: getRandomListArray(FEATURES_ARRAY),
-      description: getRandomElementArray(DESCRIPTION_ARRAY),
-      photos: getRandomListArray(PHOTOS_ARRAY),
-    },
-    location: {
-      lat: LAT,
-      lng: LNG,
-    },
-  };
+const HousingTypes = {
+  flat: 'Квартира',
+  bungalow: 'Бунгало',
+  house: 'Дом',
+  palace: 'Дворец',
+  hotel: 'Отель',
 };
 
+const Prices = {
+  low: 10000,
+  high: 50000,
+};
 
-const creationSomeAdt = new Array(ADT).fill(null).map(() => creationAdt());
+const FilterPrices = {
+  low: 'low',
+  middle: 'middle',
+  high: 'high',
+};
 
-export {TYPES_ARRAY, HOURS_ARRAY, FEATURES_ARRAY, PHOTOS_ARRAY, TITLES_ARRAY, DESCRIPTION_ARRAY, ADT, getRandomListArray, creationAdt, creationSomeAdt};
-export {MIN_PRICE, MAX_PRICE, PRICE_TYPE,NOT_GUESTS, MAX_ROOM};
+const MAX_ADVERTS_COUNT = 10;
+const ANY_VALUE = 'any';
+const ADDRESS_GET = 'https://23.javascript.pages.academy/keksobooking/data';
+const ADDRESS_POST = 'https://23.javascript.pages.academy/keksobooking';
+
+export {
+  MIN_PRICE,
+  MAX_PRICE,
+  PriceTypes,
+  NOT_GUESTS,
+  MAX_ROOM,
+  MAX_ADVERTS_COUNT,
+  ANY_VALUE,
+  ADDRESS_GET,
+  ADDRESS_POST,
+  ESC_EVENTS,
+  Prices,
+  FilterPrices,
+  HousingTypes
+};

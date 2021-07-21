@@ -1,40 +1,22 @@
-function getRandomIntInclusive(min, max) {
-  min = Math.ceil(min);
-  max = Math.floor(max);
-  if (min > max){
-    const chosenNumber = min;
-    min = max;
-    max = chosenNumber;
-  }
+import {ESC_EVENTS} from './data.js';
 
-  const number = Math.floor(Math.random() * (max - min + 1)) + min; //Максимум и минимум включаются
-  if (number < 0) {
-    return 'too bad';
-  }
-  return number;
+function debounce(callback, timeoutDelay = 500) {
+  // Используем замыкания, чтобы id таймаута у нас навсегда приклеился
+  // к возвращаемой функции с setTimeout, тогда мы его сможем перезаписывать
+  let timeoutId;
+
+  return (...rest) => {
+    // Перед каждым новым вызовом удаляем предыдущий таймаут,
+    // чтобы они не накапливались
+    clearTimeout(timeoutId);
+
+    // Затем устанавливаем новый таймаут с вызовом колбэка на ту же задержку
+    timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
+  };
 }
 
-getRandomIntInclusive();
 
-function getRandom(min, max, fixing) {
-  if (min > max) {
-    const chosenNumber = min;
-    min = max;
-    max = chosenNumber;
-  }
-  const number = Math.random() * (max - min) + min;
-  if (number < 0) {
-    return 'very bad';
-  }
-  return number.toFixed(fixing);
-}
-getRandom();
-
-function getRandomElementArray(elements) {
-  return elements[getRandomIntInclusive(0, elements.length - 1)];
-}
-
-const sameValue = (currentValue, changeValue) => {
+const setSameValue = (currentValue, changeValue) => {
   changeValue.value = currentValue.value;
 };
 
@@ -50,4 +32,9 @@ const showAlert = (message) => {
   });
 };
 
-export {getRandomIntInclusive, getRandom, getRandomElementArray, sameValue, showAlert};
+const isEscEvent = (evt) => ESC_EVENTS.includes(evt.key);
+
+
+export {setSameValue, showAlert, isEscEvent, debounce};
+
+

@@ -1,94 +1,71 @@
-import { createServerAdt, markerGroup} from './map.js';
-
-const MAX_ADT = 10;
-
-const PRICES = {
-  low: 10000,
-  high: 50000,
-};
+import {clearLayers, renderAdverts} from './map.js';
+import {ANY_VALUE, FilterPrices, Prices} from './data.js';
+import {debounce} from './util.js';
 
 const mapFilters = document.querySelector('.map__filters');
-const mapCheckboxFilterts = document.querySelectorAll('.map__checkbox');
 const housingTypeFilter = mapFilters.querySelector('#housing-type');
 const housingPriceFilter = mapFilters.querySelector('#housing-price');
 const housingRoomFilter = mapFilters.querySelector('#housing-rooms');
 const housingGuestsFilter = mapFilters.querySelector('#housing-guests');
-const housingFeaturesFilter = mapFilters.querySelectorAll('.map__checkbox');
+const featuresFilter = mapFilters.querySelector('#housing-features');
 
-mapCheckboxFilterts.forEach((housingFeatures) => {
-  housingFeatures.checked = false;
-});
+const type = mapFilters.querySelector('#housing-type');
+const price = mapFilters.querySelector('#housing-price');
+const rooms = mapFilters.querySelector('#housing-rooms');
+const guests = mapFilters.querySelector('#housing-guests');
 
-const onFilter = (adt) => {
-  const filtrationAdt = adt.filter((adts) => {
-    let result = true;
-    if (housingTypeFilter.value !== 'any' && adts.offer.type !== housingTypeFilter.value)
-    {
-      result = false;
-    }
-    if (housingPriceFilter.value !== 'any') {
-      if (housingPriceFilter.value === 'low' &&  adts.offer.price > PRICES.low)
-      {
-        result = false;
-      }
-      if (housingPriceFilter.value === 'middle' && (adts.offer.price < PRICES.low || adts.offer.price > PRICES.high))
-      {
-        result = false;
-      }
-      if (housingPriceFilter.value === 'high' &&  adts.offer.price < PRICES.high)
-      {
-        result = false;
-      }
-    }
-    if (housingRoomFilter.value !== 'any' && adts.offer.rooms !== Number(housingRoomFilter.value))
-    {
-      result = false;
-    }
-    if (housingGuestsFilter.value !== 'any' && adts.offer.guests !== Number(housingGuestsFilter.value))
-    {
-      return false;
-    }
-    housingFeaturesFilter.forEach((feature) => {
-      if (feature.checked && adts.offer.features && !adts.offer.features.includes(feature.value))
-      {
-        result = false;
-      }
-    },
-    );
-    return result;
-  });
-  createServerAdt(filtrationAdt.slice(0, MAX_ADT));
+const filterType = (advert) => advert.offer.type === type.value || type.value === ANY_VALUE;
+
+const filterPrice = (advert) => {
+  switch(price.value) {
+    case FilterPrices.middle:
+      return advert.offer.price >= Prices.low && advert.offer.price < Prices.high;
+    case FilterPrices.low:
+      return advert.offer.price < Prices.low;
+    case FilterPrices.high:
+      return advert.offer.price >= Prices.high;
+    case ANY_VALUE:
+      return true;
+  }
 };
 
-function debounce (callback, timeoutDelay = 500) {
-  // Используем замыкания, чтобы id таймаута у нас навсегда приклеился
-  // к возвращаемой функции с setTimeout, тогда мы его сможем перезаписывать
-  let timeoutId;
+const filterRooms = (advert) => advert.offer.rooms === Number(rooms.value) || rooms.value === ANY_VALUE;
 
-  return (...rest) => {
-    // Перед каждым новым вызовом удаляем предыдущий таймаут,
-    // чтобы они не накапливались
-    clearTimeout(timeoutId);
+const filterGuests = (advert) => advert.offer.guests === Number(guests.value) || guests.value === ANY_VALUE;
 
-    // Затем устанавливаем новый таймаут с вызовом колбэка на ту же задержку
-    timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
-  };
-}
+const filterFeatures = (advert) => {
+  const checkedFeatures = featuresFilter.querySelectorAll('input[type=checkbox]:checked');
+  return Array.from(checkedFeatures).every((feature) => advert.offer.features && advert.offer.features.includes(feature.value));
+};
 
-export {debounce};
+const filterAdverts = (adverts) => adverts.filter((advert) =>
+  filterType(advert) &&
+  filterPrice(advert) &&
+  filterRooms(advert) &&
+  filterGuests(advert) &&
+  filterFeatures(advert),
+);
 
-const addFilters = (ads) => {
-  const debounced = debounce(() => {
-    markerGroup.clearLayers();
-    onFilter(ads);
+const setFilters = (advert) => {
+  const renderFilteredAdverts = debounce(() => {
+    clearLayers();
+    renderAdverts(filterAdverts(advert));
   });
-  housingTypeFilter.addEventListener('change', debounced);
-  housingPriceFilter.addEventListener('change', debounced);
-  housingRoomFilter.addEventListener('change', debounced);
-  housingGuestsFilter.addEventListener('change', debounced);
-  housingFeaturesFilter.forEach((feature) => {
-    feature.addEventListener('change', debounced);
+  housingTypeFilter.addEventListener('change', () => {
+    renderFilteredAdverts();
+  });
+  housingPriceFilter.addEventListener('change', () => {
+    renderFilteredAdverts();
+  });
+  housingRoomFilter.addEventListener('change', () => {
+    renderFilteredAdverts();
+  });
+  housingGuestsFilter.addEventListener('change', () => {
+    renderFilteredAdverts();
+  });
+  featuresFilter.addEventListener('change', () => {
+    renderFilteredAdverts();
   });
 };
 
-export {onFilter, addFilters};
+export {filterAdverts, setFilters};

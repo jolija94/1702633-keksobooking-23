@@ -5,11 +5,14 @@ import './form.js';
 import './map.js';
 import './fetch.js';
 import './filters.js';
-import {getData} from './fetch.js';
-//import {createServerAdt} from './map.js';
-import {addFilters, onFilter} from './filters.js';
+import {advertsPromise} from './fetch.js';
+import {setFilters} from './filters.js';
+import {renderAdverts} from './map.js';
+import {enableFilters} from './page.js';
 
-getData((adt) => {
-  onFilter(adt);
-  addFilters(adt);
+advertsPromise.then((adverts) => {
+  enableFilters();
+  renderAdverts(adverts);
+  setFilters(adverts);
 });
+

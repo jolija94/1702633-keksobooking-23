@@ -1,5 +1,7 @@
-import {toggleDisabledPage} from './form.js';
-import {creationPopups} from './popup.js';
+import {clearForm} from './form.js';
+import {createPopups} from './popup.js';
+import {MAX_ADVERTS_COUNT} from './data.js';
+import {disablePage, enableForm} from './page.js';
 
 const address = document.querySelector('#address');
 
@@ -14,11 +16,13 @@ const ICON_SIZE = [40, 40];
 const ICON_ANCHOR = [20, 40];
 const ACCURACY = 5;
 
+disablePage();
+
 const map = L.map('map-canvas')
   .on('load', () => {
-    toggleDisabledPage(false);
+    enableForm();
   })
-  .setView(TOKYO_LAT_LNG, MAP_ZOOM );
+  .setView(TOKYO_LAT_LNG, MAP_ZOOM);
 
 L.tileLayer(
   'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
@@ -43,23 +47,36 @@ const mainMarker = L.marker(
 
 mainMarker.addTo(map);
 
+const setDefaultMarkerState = () => {
+  const newLatLng = new L.LatLng(TOKYO_LAT_LNG.lat, TOKYO_LAT_LNG.lng);
+  mainMarker.setLatLng(newLatLng);
+  map.setView(TOKYO_LAT_LNG, MAP_ZOOM);
+};
+
+const setAddressValue = (lat, lng) => {
+  address.value = `${lat.toFixed(ACCURACY)}, ${lng.toFixed(ACCURACY)}`;
+};
+
 mainMarker.on('moveend', (evt) => {
   const userCoordinate = evt.target.getLatLng();
-  const lat = userCoordinate.lat.toFixed(ACCURACY);
-  const lng = userCoordinate.lng.toFixed(ACCURACY);
-  address.value = `${lat},  ${lng}`;
+  setAddressValue(userCoordinate.lat, userCoordinate.lng)
 });
 
 const resetButton = document.querySelector('.ad-form__reset');
-resetButton.addEventListener('click', () => {
-  mainMarker.setLatLng(TOKYO_LAT_LNG);
-  map.setView(TOKYO_LAT_LNG, MAP_ZOOM);
+resetButton.addEventListener('click', (evt) => {
+  evt.preventDefault();
+  clearForm();
 });
 
-const createServerAdt  = (creationSomeAdt) => {
-  creationSomeAdt.forEach((creationAdt, index) => {
-    const lat = creationAdt.location.lat;
-    const lng = creationAdt.location.lng;
+const markerGroup = L.layerGroup().addTo(map);
+
+const renderAdverts = (adverts) => {
+  const advertsLimited = adverts.slice(0, MAX_ADVERTS_COUNT);
+  const popups = createPopups(advertsLimited);
+
+  advertsLimited.forEach((advert, index) => {
+    const lat = advert.location.lat;
+    const lng = advert.location.lng;
 
     const icon = L.icon({
       iconUrl: 'img/pin.svg',
@@ -67,7 +84,7 @@ const createServerAdt  = (creationSomeAdt) => {
       iconAnchor: ICON_ANCHOR,
     });
 
-    const marker = L.marker (
+    const marker = L.marker(
       {
         lat,
         lng,
@@ -76,19 +93,15 @@ const createServerAdt  = (creationSomeAdt) => {
         icon,
       },
     );
-    marker.addTo(map).bindPopup(creationPopups[index],{keepInView: true});
+    marker.addTo(markerGroup).bindPopup(popups[index], {keepInView: true});
   });
 };
 
-const markerGroup = L.layerGroup().addTo(map);
-
-const createAdtMap = (data) => {
-  data.forEach((objectPromo) => {
-    createServerAdt(objectPromo.avatar, objectPromo.offer, objectPromo.location);
-
-  });
+const clearLayers = () => {
+  markerGroup.clearLayers();
 };
 
-address.setAttribute('value', `${TOKYO_LAT_LNG.lat}, ${TOKYO_LAT_LNG.lng}`);
+setAddressValue(TOKYO_LAT_LNG.lat, TOKYO_LAT_LNG.lng);
 
-export {createServerAdt, createAdtMap, markerGroup };
+export {renderAdverts, setDefaultMarkerState, clearLayers, setAddressValue, TOKYO_LAT_LNG};
+
