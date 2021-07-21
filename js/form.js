@@ -1,125 +1,93 @@
-import {MIN_PRICE, MAX_PRICE, PRICE_TYPE,NOT_GUESTS, FLAT_VALUE, BUNGALOW, HOUSE, PALACE, HOTEL, MAX_ROOM} from './data.js';
-import {sameValue} from './util.js';
+import {MIN_PRICE, MAX_PRICE, PriceTypes, NOT_GUESTS, MAX_ROOM} from './data.js';
+import {setSameValue} from './util.js';
+import {TOKYO_LAT_LNG, setDefaultMarkerState, setAddressValue, clearLayers, renderAdverts} from './map.js';
+import {advertsPromise} from './fetch.js';
 
-const formAdt = document.querySelector('.ad-form').querySelectorAll('fieldset');
-const formMap = document.querySelector('.map__filters');
-const featuresMap = document.querySelector('.map__features');
-const getFiltersSelects = formMap.querySelectorAll('select');
+const formAdvert = document.querySelector('.ad-form');
+const formFilter = document.querySelector('.map__filters');
 
-const toggleDisabledPage = (inactive) => {
-  formAdt.forEach((item) => {
-    item.disabled = inactive;
-  });
-  getFiltersSelects.forEach((item) => {
-    item.disabled = inactive;
-  });
-  featuresMap.disabled = inactive;
-  if (inactive) {
-    document.querySelector('.ad-form').classList.add('ad-form--disabled');
-    formMap.classList.add('map__filters--disabled');
-  } else {
-    document.querySelector('.ad-form').classList.remove('ad-form--disabled');
-    formMap.classList.remove('map__filters--disabled');
-  }
-};
-
-const priceAdt = document.querySelector('#price');
-priceAdt.addEventListener('input', () => {
-  const costPrice = priceAdt.value;
+const priceInput = document.querySelector('#price');
+priceInput.addEventListener('input', () => {
+  const costPrice = priceInput.value;
   if (costPrice < MIN_PRICE) {
-    priceAdt.setCustomValidity(`Минимальная цена ${MIN_PRICE} ₽/ночь`);
+    priceInput.setCustomValidity(`Минимальная цена ${MIN_PRICE} ₽/ночь`);
   } else if (costPrice > MAX_PRICE) {
-    priceAdt.setCustomValidity(`Максимальная цена превышается на ${costPrice - MAX_PRICE}₽. Максимально возможная цена ${MAX_PRICE} ₽/ночь`);
+    priceInput.setCustomValidity(`Максимальная цена превышается на ${costPrice - MAX_PRICE}₽. Максимально возможная цена ${MAX_PRICE} ₽/ночь`);
   } else {
-    priceAdt.setCustomValidity('');
+    priceInput.setCustomValidity('');
   }
-  priceAdt.reportValidity('');
+  priceInput.reportValidity('');
 });
 
 
 const roomNumber = document.querySelector('#room_number');
 const roomCapacityGuests = document.querySelector('#capacity');
 
-const checkCapacity = (input) => {
+const checkCapacity = () => {
   if (
     Number(roomNumber.value) === MAX_ROOM && Number(roomCapacityGuests.value) !== NOT_GUESTS
   ) {
-    input.setCustomValidity(`${MAX_ROOM} комнат нельзя выбрать для гостей!`);
+    roomNumber.setCustomValidity(`${MAX_ROOM} комнат нельзя выбрать для гостей!`);
   } else if (
     Number(roomNumber.value) !== MAX_ROOM && Number(roomCapacityGuests.value) === 0
   ) {
-    input.setCustomValidity(`Не для гостей доступно только ${MAX_ROOM} комнат!`);
+    roomNumber.setCustomValidity(`Не для гостей доступно только ${MAX_ROOM} комнат!`);
   } else if (
     (Number(roomNumber.value) !== MAX_ROOM) && Number(roomCapacityGuests.value) !== 0 && Number(roomNumber.value) < Number(roomCapacityGuests.value)
-  ) { input.setCustomValidity('Количество гостей не должно превышать количество комнат!');
+  ) {
+    roomNumber.setCustomValidity('Количество гостей не должно превышать количество комнат!');
   } else {
-    input.setCustomValidity('');
+    roomNumber.setCustomValidity('');
   }
-  input.reportValidity('');
+  roomNumber.reportValidity('');
+
+  return roomNumber.checkValidity() && roomCapacityGuests.checkValidity();
 };
 
 const arrivalTimeIn = document.querySelector('#timein');
 const departureTimeOut = document.querySelector('#timeout');
 
 arrivalTimeIn.addEventListener('change', () =>
-  sameValue(arrivalTimeIn, departureTimeOut),
+  setSameValue(arrivalTimeIn, departureTimeOut),
 );
 departureTimeOut.addEventListener('change', () =>
-  sameValue(departureTimeOut, arrivalTimeIn),
+  setSameValue(departureTimeOut, arrivalTimeIn),
 );
 
 const houseType = document.querySelector('#type');
 roomNumber.addEventListener('change', () => {
-  if (roomNumber.value < roomCapacityGuests.value && roomNumber.value !== MAX_ROOM){
+  if (roomNumber.value < roomCapacityGuests.value && roomNumber.value !== MAX_ROOM) {
     roomNumber.value = roomCapacityGuests.value;
-  } if (Number(roomNumber.value) === MAX_ROOM){
+  }
+  if (Number(roomNumber.value) === MAX_ROOM) {
     roomCapacityGuests.value = NOT_GUESTS;
   }
-  checkCapacity(roomNumber);
+  checkCapacity();
 });
 roomCapacityGuests.addEventListener('change', () => {
   if (Number(roomCapacityGuests.value) === NOT_GUESTS) {
     roomNumber.value = MAX_ROOM;
   }
-  checkCapacity(roomCapacityGuests);
+  checkCapacity();
 });
 
 houseType.addEventListener('change', () => {
-  const value = PRICE_TYPE[houseType.value.toUpperCase()];
-  switch(houseType.value) {
-    case FLAT_VALUE:
-      priceAdt.setAttribute('min', value);
-      priceAdt.setAttribute('placeholder', value);
-      break;
-    case BUNGALOW:
-      priceAdt.setAttribute('min', value);
-      priceAdt.setAttribute('placeHolder', value);
-      break;
-    case HOUSE:
-      priceAdt.setAttribute('min', value);
-      priceAdt.setAttribute('placeholder', value);
-      break;
-    case PALACE:
-      priceAdt.setAttribute('min', value);
-      priceAdt.setAttribute('placeholder', value);
-      break;
-    case HOTEL:
-      priceAdt.setAttribute('min', value);
-      priceAdt.setAttribute('placeholder', value);
-      break;
-  }
+  const value = PriceTypes[houseType.value];
+  priceInput.min = value;
+  priceInput.placeholder = value;
 });
 
-const valueFlat = PRICE_TYPE[houseType.value.toUpperCase()];
-
-if (houseType.value === FLAT_VALUE) {
-  priceAdt.setAttribute('min', valueFlat);
-  priceAdt.setAttribute('placeholder', valueFlat );
-}
-
 const clearForm = () => {
-  formAdt.reset();
-  formMap.reset();
+  formAdvert.reset();
+  formFilter.reset();
+
+  priceInput.min = PriceTypes[houseType.value];
+  priceInput.placeholder = PriceTypes[houseType.value];
+
+  setAddressValue(TOKYO_LAT_LNG.lat, TOKYO_LAT_LNG.lng);
+  setDefaultMarkerState();
+  clearLayers();
+  advertsPromise.then(renderAdverts);
 };
 
-export {toggleDisabledPage, clearForm};
+export {clearForm, checkCapacity};

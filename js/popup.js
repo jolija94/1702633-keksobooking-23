@@ -1,74 +1,67 @@
+import {HousingTypes} from './data.js';
+
 const userTemplateFragment = document.querySelector('#card').content.querySelector('.popup');
-const housingTypes = {
-  flat:'Квартира',
-  bungalow:'Бунгало',
-  house:'Дом',
-  palace:'Дворец',
-  hotel:'Отель',
-};
 
-const getTypeHousesRussian = (housingType) => housingTypes[housingType];
-
-const setAdt = (adtElement, visible) => {
+const setAdvertVisibility = (advert, visible) => {
   if (visible) {
 
-    adtElement.classList.remove('hidden');
+    advert.classList.remove('hidden');
     return;
   }
-  adtElement.classList.add('hidden');
+  advert.classList.add('hidden');
 };
 
-const  setAdtElementContent = (adtElement, content, isHtml) => {
+const setAdvertContent = (advert, content, isHtml) => {
   if (isHtml) {
-    adtElement.innerHTML = content;
+    advert.innerHTML = content;
     return;
   }
-  adtElement.textContent = content;
+  advert.textContent = content;
 };
 
 const createPopups = (someAdtArray) =>
-  someAdtArray.map((adtElement) => {
+  someAdtArray.map((advert) => {
     const popup = userTemplateFragment.cloneNode(true);
 
     const title = popup.querySelector('.popup__title');
-    setAdt(title, adtElement.offer.title);
-    setAdtElementContent(title, adtElement.offer.title, false);
+    setAdvertVisibility(title, advert.offer.title);
+    setAdvertContent(title, advert.offer.title, false);
 
     const address = popup.querySelector('.popup__text--address');
-    setAdt(address, adtElement.offer.address);
-    setAdtElementContent(address, adtElement.offer.address, false);
+    setAdvertVisibility(address, advert.offer.address);
+    setAdvertContent(address, advert.offer.address, false);
 
     const type = popup.querySelector('.popup__type');
-    setAdt(type, adtElement.offer.types);
-    setAdtElementContent(type, getTypeHousesRussian(adtElement.offer.type), false);
+    setAdvertVisibility(type, advert.offer.type);
+    setAdvertContent(type, HousingTypes[advert.offer.type], false);
 
     const price = popup.querySelector('.popup__text--price');
-    setAdt(price, adtElement.offer.price);
-    setAdtElementContent(price, `${adtElement.offer.price} <span>₽/ночь</span>`, true);
+    setAdvertVisibility(price, advert.offer.price);
+    setAdvertContent(price, `${advert.offer.price} <span>₽/ночь</span>`, true);
 
     const capacity = popup.querySelector('.popup__text--capacity');
-    setAdt(capacity, adtElement.offer.rooms && adtElement.offer.guests);
-    setAdtElementContent(capacity, `${adtElement.offer.rooms} комнаты для ${adtElement.offer.guests} гостей`, false);
+    setAdvertVisibility(capacity, advert.offer.rooms && advert.offer.guests);
+    setAdvertContent(capacity, `${advert.offer.rooms} комнаты для ${advert.offer.guests} гостей`, false);
 
     const time = popup.querySelector('.popup__text--time');
-    setAdt(time, adtElement.offer.checkin && adtElement.offer.checkout);
-    setAdtElementContent(time,  `Заезд после ${adtElement.offer.checkin}, выезд до ${adtElement.offer.checkout}`, false);
+    setAdvertVisibility(time, advert.offer.checkin && advert.offer.checkout);
+    setAdvertContent(time, `Заезд после ${advert.offer.checkin}, выезд до ${advert.offer.checkout}`, false);
 
     const avatar = popup.querySelector('.popup__avatar');
-    setAdt(avatar, adtElement.author.avatar);
-    avatar.src = adtElement.author.avatar;
+    setAdvertVisibility(avatar, advert.author.avatar);
+    avatar.src = advert.author.avatar;
 
     const description = popup.querySelector('.popup__description');
-    setAdt(description, adtElement.offer.features);
-    setAdtElementContent(description, adtElement.offer.description, false);
+    setAdvertVisibility(description, advert.offer.features);
+    setAdvertContent(description, advert.offer.description, false);
 
     const features = popup.querySelector('.popup__features');
-    const featuresPopup = adtElement.offer.features;
-    setAdt(features, featuresPopup && featuresPopup.length);
+    const featuresPopup = advert.offer.features;
+    setAdvertVisibility(features, featuresPopup && featuresPopup.length);
     if (featuresPopup && featuresPopup.length) {
       features.innerHTML = '';
-      featuresPopup.forEach((featurePopup) =>  {
-        const featuresItem  = document.createElement('li');
+      featuresPopup.forEach((featurePopup) => {
+        const featuresItem = document.createElement('li');
         featuresItem.classList.add('popup__feature');
         featuresItem.classList.add(`popup__feature--${featurePopup}`);
         features.appendChild(featuresItem);
@@ -76,13 +69,13 @@ const createPopups = (someAdtArray) =>
     }
 
     const photos = popup.querySelector('.popup__photos');
-    const photosPopup = adtElement.offer.photos;
-    setAdt(photos, photosPopup && photosPopup.length);
+    const photosPopup = advert.offer.photos;
+    setAdvertVisibility(photos, photosPopup && photosPopup.length);
 
     if (photosPopup && photosPopup.length) {
       photos.innerHTML = '';
-      adtElement.offer.photos.forEach((photo) => {
-        const photoPopup  = document.createElement('img');
+      advert.offer.photos.forEach((photo) => {
+        const photoPopup = document.createElement('img');
         photoPopup.classList.add('popup__photo');
         photoPopup.width = 45;
         photoPopup.height = 40;

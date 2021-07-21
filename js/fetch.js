@@ -1,17 +1,22 @@
 import {showAlert} from './util.js';
-import {clearForm} from './form.js';
-import {SUCCESS, ERROR, getMessage} from './message.js';
+import {clearForm, checkCapacity} from './form.js';
+import {showSuccessMessage, showDataErrorMessage, showErrorMessage} from './message.js';
 import {ADDRESS_GET, ADDRESS_POST} from './data.js';
 
+const form = document.querySelector('.ad-form');
 
-const getData = (onSuccess) => fetch(ADDRESS_GET)
-  .then((response) => response.json())
-  .then((advert) => {
-    onSuccess(advert);
+const getData = () => fetch(ADDRESS_GET)
+  .then((response) => {
+    if(!response.ok) {
+      throw new Error(response.status);
+    }
+    return response.json();
   })
   .catch(() => {
-    showAlert();
+    showDataErrorMessage();
   });
+
+const advertsPromise = getData();
 
 const setData = (body) => {
   fetch(
@@ -23,13 +28,22 @@ const setData = (body) => {
   )
     .then((response) => {
       if (response.ok) {
-        getMessage(SUCCESS);
         clearForm();
+        showSuccessMessage();
       } else {
-        getMessage(ERROR);
+        showErrorMessage();
       }
     })
     .catch(() => showAlert());
 };
 
-export {getData, setData};
+form.addEventListener('submit', function(evt){
+  evt.preventDefault();
+  if (!checkCapacity()) {
+    return;
+  }
+  const formData = new FormData(this);
+  setData(formData);
+});
+
+export {advertsPromise, setData};

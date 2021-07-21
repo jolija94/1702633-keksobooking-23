@@ -2,34 +2,52 @@ const MIN_PRICE = 0;
 const MAX_PRICE = 1000000;
 const MAX_ROOM = 100;
 const NOT_GUESTS = 0;
-const PRICE_TYPE = {
-  BUNGALOW: 0,
-  FLAT: 1000,
-  HOTEL: 3000,
-  HOUSE: 5000,
-  PALACE: 10000,
+const ESC_EVENTS = ['Escape', 'Esc'];
+
+const PriceTypes = {
+  bungalow: 0,
+  flat: 1000,
+  hotel: 3000,
+  house: 5000,
+  palace: 10000,
 };
 
+const HousingTypes = {
+  flat: 'Квартира',
+  bungalow: 'Бунгало',
+  house: 'Дом',
+  palace: 'Дворец',
+  hotel: 'Отель',
+};
 
-const FLAT_VALUE = 'flat';
-const BUNGALOW = 'bungalow';
-const HOUSE = 'house';
-const PALACE = 'palace';
-const HOTEL = 'hotel';
-const MAX_ADTS = 10;
-
-const PRICES = {
+const Prices = {
   low: 10000,
   high: 50000,
 };
 
-const ANY = 'any';
-const LOW = 'low';
-const MIDDLE = 'middle';
-const HIGH = 'high';
+const FilterPrices = {
+  low: 'low',
+  middle: 'middle',
+  high: 'high',
+};
 
+const MAX_ADVERTS_COUNT = 10;
+const ANY_VALUE = 'any';
 const ADDRESS_GET = 'https://23.javascript.pages.academy/keksobooking/data';
 const ADDRESS_POST = 'https://23.javascript.pages.academy/keksobooking';
 
-export {MIN_PRICE, MAX_PRICE, PRICE_TYPE,NOT_GUESTS, FLAT_VALUE, BUNGALOW, HOUSE, PALACE, HOTEL, MAX_ROOM, MAX_ADTS, PRICES, ANY, LOW, MIDDLE, HIGH};
-export {ADDRESS_GET, ADDRESS_POST};
+export {
+  MIN_PRICE,
+  MAX_PRICE,
+  PriceTypes,
+  NOT_GUESTS,
+  MAX_ROOM,
+  MAX_ADVERTS_COUNT,
+  ANY_VALUE,
+  ADDRESS_GET,
+  ADDRESS_POST,
+  ESC_EVENTS,
+  Prices,
+  FilterPrices,
+  HousingTypes
+};
