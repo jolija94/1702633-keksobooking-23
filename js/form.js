@@ -1,4 +1,4 @@
-import {MAX_PRICE, MIN_PRICE, PRICE_TYPE, NOT_GUESTS, MAX_ROOM} from './data.js';
+import {MIN_PRICE, MAX_PRICE, PRICE_TYPE,NOT_GUESTS, FLAT_VALUE, BUNGALOW, HOUSE, PALACE, HOTEL, MAX_ROOM} from './data.js';
 import {sameValue} from './util.js';
 
 const formAdt = document.querySelector('.ad-form').querySelectorAll('fieldset');
@@ -35,6 +35,7 @@ priceAdt.addEventListener('input', () => {
   }
   priceAdt.reportValidity('');
 });
+
 
 const roomNumber = document.querySelector('#room_number');
 const roomCapacityGuests = document.querySelector('#capacity');
@@ -86,23 +87,23 @@ roomCapacityGuests.addEventListener('change', () => {
 houseType.addEventListener('change', () => {
   const value = PRICE_TYPE[houseType.value.toUpperCase()];
   switch(houseType.value) {
-    case 'flat':
+    case FLAT_VALUE:
       priceAdt.setAttribute('min', value);
       priceAdt.setAttribute('placeholder', value);
       break;
-    case 'bungalow':
+    case BUNGALOW:
       priceAdt.setAttribute('min', value);
       priceAdt.setAttribute('placeHolder', value);
       break;
-    case 'house':
+    case HOUSE:
       priceAdt.setAttribute('min', value);
       priceAdt.setAttribute('placeholder', value);
       break;
-    case 'palace':
+    case PALACE:
       priceAdt.setAttribute('min', value);
       priceAdt.setAttribute('placeholder', value);
       break;
-    case 'hotel':
+    case HOTEL:
       priceAdt.setAttribute('min', value);
       priceAdt.setAttribute('placeholder', value);
       break;
@@ -111,9 +112,14 @@ houseType.addEventListener('change', () => {
 
 const valueFlat = PRICE_TYPE[houseType.value.toUpperCase()];
 
-if (houseType.value === 'flat') {
+if (houseType.value === FLAT_VALUE) {
   priceAdt.setAttribute('min', valueFlat);
   priceAdt.setAttribute('placeholder', valueFlat );
 }
 
-export {toggleDisabledPage};
+const clearForm = () => {
+  formAdt.reset();
+  formMap.reset();
+};
+
+export {toggleDisabledPage, clearForm};
