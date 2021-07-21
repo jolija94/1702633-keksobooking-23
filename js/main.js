@@ -12,3 +12,4 @@ getData((advert) => {
   onFilter(advert);
   addFilters(advert);
 });
+

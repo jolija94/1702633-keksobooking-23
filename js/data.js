@@ -10,6 +10,7 @@ const PRICE_TYPE = {
   PALACE: 10000,
 };
 
+
 const FLAT_VALUE = 'flat';
 const BUNGALOW = 'bungalow';
 const HOUSE = 'house';

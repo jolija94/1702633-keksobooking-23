@@ -3,6 +3,7 @@ import {clearForm} from './form.js';
 import {SUCCESS, ERROR, getMessage} from './message.js';
 import {ADDRESS_GET, ADDRESS_POST} from './data.js';
 
+
 const getData = (onSuccess) => fetch(ADDRESS_GET)
   .then((response) => response.json())
   .then((advert) => {

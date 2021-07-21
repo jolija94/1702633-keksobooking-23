@@ -36,6 +36,7 @@ priceAdt.addEventListener('input', () => {
   priceAdt.reportValidity('');
 });
 
+
 const roomNumber = document.querySelector('#room_number');
 const roomCapacityGuests = document.querySelector('#capacity');
 

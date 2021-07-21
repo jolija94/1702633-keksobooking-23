@@ -87,3 +87,4 @@ const createServerAdt  = (adverts) => {
 address.setAttribute('value', `${TOKYO_LAT_LNG.lat}, ${TOKYO_LAT_LNG.lng}`);
 
 export {createServerAdt, markerGroup };
+

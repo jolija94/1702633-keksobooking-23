@@ -70,6 +70,7 @@ function debounce (callback, timeoutDelay = 500) {
   };
 }
 
+
 const addFilters = (advert) => {
   const debounced = debounce(() => {
     markerGroup.clearLayers();
