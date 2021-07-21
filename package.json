@@ -1,11 +1,10 @@
 {
   "name": "keksobooking",
   "version": "23.0.0",
-  "type": "module",
   "private": true,
   "description": "Личный проект «Кексобукинг» от HTML Academy",
   "repository": {
-    "type": "git  ",
+    "type": "git",
     "url": "git@github.com:htmlacademy-javascript/1702633-keksobooking-23.git"
   },
   "bugs": {
