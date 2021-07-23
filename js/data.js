@@ -12,6 +12,9 @@ const PriceTypes = {
   palace: 10000,
 };
 
+const PHOTOS_WIDTH = 45;
+const PHOTOS_HEIGHT = 40;
+
 const HousingTypes = {
   flat: 'Квартира',
   bungalow: 'Бунгало',
@@ -49,5 +52,7 @@ export {
   ESC_EVENTS,
   Prices,
   FilterPrices,
-  HousingTypes
+  HousingTypes,
+  PHOTOS_WIDTH,
+  PHOTOS_HEIGHT
 };

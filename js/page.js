@@ -27,4 +27,4 @@ const enableFilters = () => {
   });
 };
 
-export {disablePage, enableFilters, enableForm}
+export {disablePage, enableFilters, enableForm};

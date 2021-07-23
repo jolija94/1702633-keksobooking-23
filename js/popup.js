@@ -1,4 +1,4 @@
-import {HousingTypes} from './data.js';
+import {HousingTypes, PHOTOS_WIDTH, PHOTOS_HEIGHT} from './data.js';
 
 const userTemplateFragment = document.querySelector('#card').content.querySelector('.popup');
 
@@ -77,8 +77,8 @@ const createPopups = (someAdtArray) =>
       advert.offer.photos.forEach((photo) => {
         const photoPopup = document.createElement('img');
         photoPopup.classList.add('popup__photo');
-        photoPopup.width = 45;
-        photoPopup.height = 40;
+        photoPopup.width = PHOTOS_WIDTH;
+        photoPopup.height = PHOTOS_HEIGHT;
         photoPopup.src = photo;
         photos.appendChild(photoPopup);
       });

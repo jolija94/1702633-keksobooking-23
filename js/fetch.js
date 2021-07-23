@@ -37,7 +37,7 @@ const setData = (body) => {
     .catch(() => showAlert());
 };
 
-form.addEventListener('submit', function(evt){
+form.addEventListener('submit', (evt) => {
   evt.preventDefault();
   if (!checkCapacity()) {
     return;

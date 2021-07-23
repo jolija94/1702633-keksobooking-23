@@ -59,7 +59,7 @@ const setAddressValue = (lat, lng) => {
 
 mainMarker.on('moveend', (evt) => {
   const userCoordinate = evt.target.getLatLng();
-  setAddressValue(userCoordinate.lat, userCoordinate.lng)
+  setAddressValue(userCoordinate.lat, userCoordinate.lng);
 });
 
 const resetButton = document.querySelector('.ad-form__reset');
